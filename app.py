@@ -7,26 +7,6 @@ import pickle
 valid_login = st.secrets["VALID_LOGIN"]
 valid_password = st.secrets["VALID_PASSWORD"]
 
-## Functions
-def load_model():
-    with open('model_pkl2.pickle', 'rb') as f:
-        model = pickle.load(f)
-    return model
-
-def return_prediction(data):
-    prediction = model.predict(data)
-    if prediction == 0:
-        return("This employee will probably LEAVE your company")
-    else:  
-        return("This employee will probably STAY in your company")    
-
-## Import Model
-model = load_model()
-
-## Title
-st.title("Employee leaving or not ?")
-st.text("Check if an employee will leave the company or not.")
-
 def check_password():
     """Returns `True` if the user had the correct password."""
 
@@ -61,6 +41,26 @@ def check_password():
     else:
         # Password correct.
         return True
+    
+## Functions
+def load_model():
+    with open('model_pkl2.pickle', 'rb') as f:
+        model = pickle.load(f)
+    return model
+
+def return_prediction(data):
+    prediction = model.predict(data)
+    if prediction == 0:
+        return("This employee will probably LEAVE your company")
+    else:  
+        return("This employee will probably STAY in your company")    
+
+## Import Model
+model = load_model()
+
+## Title
+st.title("Employee leaving or not ?")
+st.text("Check if an employee will leave the company or not.")
     
 ## Login ##
 if check_password():
