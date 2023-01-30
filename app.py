@@ -2,6 +2,10 @@ import streamlit as st
 import pandas as pd
 import pickle
 
+## Variables d'environnement (secrets sur streamlit cloud) ##
+valid_login = st.secrets["VALID_LOGIN"]
+valid_password = st.secrets["VALID_PASSWORD"]
+
 ## Functions
 def load_model():
     with open('model_pkl2.pickle', 'rb') as f:
