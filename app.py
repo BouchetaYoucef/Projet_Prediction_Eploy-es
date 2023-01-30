@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+from PIL import Image
 import pickle
 
 ## Variables d'environnement (secrets sur streamlit cloud) ##
@@ -25,6 +26,49 @@ model = load_model()
 ## Title
 st.title("Employee leaving or not ?")
 st.text("Check if an employee will leave the company or not.")
+
+def check_password():
+    """Returns `True` if the user had the correct password."""
+
+    def password_entered():
+        """Checks whether a password entered by the user is correct."""
+        if st.session_state["password"] == valid_password and st.session_state["login"] == valid_login:
+            st.session_state["password_correct"] = True 
+            del st.session_state["password"]  # don't store password
+            del st.session_state["login"]
+        else:
+            st.session_state["password_correct"] = False
+
+    if "password_correct" not in st.session_state:
+        # First run, show input for password.
+        st.text_input(
+            "Login", on_change=password_entered, key="login"
+        )
+        st.text_input(
+            "Password", type="password", on_change=password_entered, key="password"
+        )
+        return False
+    elif not st.session_state["password_correct"]:
+        # Password not correct, show input + error.
+        st.text_input(
+            "Login", on_change=password_entered, key="login"
+        )
+        st.text_input(
+            "Password", type="password", on_change=password_entered, key="password"
+        )
+        # st.error("😕 Identifiants incorrects, veuillez réessayer")
+        return False
+    else:
+        # Password correct.
+        return True
+    
+## Login ##
+if check_password():
+
+    # Application ##
+    img1 = Image.open('attrition.jpg')
+    img1 = img1.resize((200, 200))
+    st.image(img1, use_column_width=False)
 
 ## INPUTS ##
 ## For Education
